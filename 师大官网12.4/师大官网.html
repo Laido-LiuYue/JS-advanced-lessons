@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>河北师范大学官方网站</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+	<!--第一部分：网页片头-->
+	<div class="divone">
+		<img src="images/logo.png" id="logo">
+			<span>
+				<a href="#">旧版网页</a>&nbsp;&nbsp;&nbsp;&nbsp;
+				<a href="#">English Version</a>
+			</span>
+			<form>
+				<input name="keyword" type="text" class="search" value="搜索">
+				<input name="" type="button" class="button" value="">
+			</form>
+	</div> 
+	<!--分隔线-->
+	<hr>
+	<!--第二部分：网页导航栏-->
+	<div class="divtwo">
+		<ul id="nav">
+				<li id="menu"><a href="#" id="tilie">首页</a></li>
+				<li id="menu"><a href="#" id="tilie">学校概况</a>
+					<ul>
+						<li><a href="#">学校简介</a></li>
+						<li><a href="#">学科专业</a></li>
+						<li><a href="#">治理架构</a></li>
+						<li><a href="#">历史沿革</a></li>
+						<li><a href="#">学校标志</a></li>
+						<li><a href="#">校园风光</a></li>
+						<li><a href="#">学校地图</a></li>
+					</ul>
+				</li>	
+				<li id="menu"><a href="#" id="tilie"> 教学单位</a>
+					<ul>
+						<li><a href="#"> 管理服务</a></li>
+						<li><a href="#"> 附属单位</a></li>
+						<li><a href="#"> 汇华学院</a></li>
+					</ul>
+				</li>
+				<li id="menu"><a href="#" id="tilie">人才培养</a>
+				    <ul>
+					    <li><a href="#">师资队伍</a></li>
+						<li><a href="#">本科生教育</a></li>
+						<li><a href="#">研究生教育</a></li>
+						<li><a href="#">继续教育</a></li>
+						<li><a href="#">留学生教育</a></li>
+						<li><a href="#">中外合作办学</a></li>
+					</ul>
+				</li>
+				<li id="menu"><a href="#" id="tilie">科学研究</a>
+					<ul>
+						<li><a href="#">科学研究平台</a></li>
+						<li><a href="#">自然科学与技术</a></li>
+						<li><a href="#">人文与社会科学</a></li>
+						<li><a href="#">合作交流</a></li>
+						<li><a href="#">学术期刊</a></li>
+					</ul>
+				</li>		
+				<li id="menu"><a href="#" id="tilie">招生就业</a>
+					<ul>
+						<li><a href="#">本科生招生</a></li>
+						<li><a href="#">研究生招生</a></li>
+						<li><a href="#">继续教育招生</a></li>
+						<li><a href="#">留学生招生</a></li>
+						<li><a href="#">就业服务</a></li>
+					</ul>
+				</li>
+				<li id="menu"><a href="#" id="tilie">人才招聘</a></li>
+				<li id="menu"><a href="#" id="tilie">公共服务</a>
+					<ul>
+						<li><a href="#">本科生服务</a></li>
+						<li><a href="#">研究生服务</a></li>
+						<li><a href="#">行政事业服务</a></li>
+						<li><a href="#">图书情报服务</a></li>
+						<li><a href="#">预决算公开</a></li>
+						<li><a href="#">生活服务</a></li>
+						<li><a href="#">网络服务</a></li>
+				 	</ul>
+				</li>
+				<li id="menu"><a href="#" id="tilie">校友会</a></li>
+			</ul> 
+	</div>
+	<!--第三部分：图像切换-->
+	<div class="wrap">
+		<a href="#" style="display:block;"><img src="images/0.jpg" ></a>
+		<a href="#"><img src="images/1.jpg"></a>
+		<a href="#"><img src="images/2.jpg"></a>
+		<a href="#"><img src="images/3.jpg"></a>
+		<a href="#"><img src="images/4.jpg"></a>		
+		<a href="#"><img src="images/5.jpg"></a>
+		<a href="#"><img src="images/6.jpg"></a>
+		<a href="#"><img src="images/7.jpg"></a>
+		<div class="bottom">
+			<span id="pre"><</span>
+			<span id="next">></span>
+		</div>
+	</div>
+</body>
+<script>
+	/*下拉菜单的设置*/
+	window.onload=function(){
+		var li=document.getElementsByTagName("li");
+		for(var i=0;i<li.length;i++){
+			li[i].onmouseover=function(){
+				this.className="display";
+			}
+			li[i].onmouseout=function(){
+				this.className="";
+			}
+		}
+	}
+	/*图片切换的设置*/
+	var wrap = document.getElementsByClassName('wrap')[0];
+	var imgs = wrap.getElementsByTagName('a');
+	var pre = document.getElementById('pre');
+	var next = document.getElementById('next');
+	var i = 0;
+	function imgTab(){
+		imgs[i%8].style.display = 'none';
+		i++;
+		imgs[i%8].style.display = 'block';
+	}
+	var timer = setInterval(imgTab,1000);
+	wrap.onmouseover = function(){
+		clearInterval(timer);
+	}
+	wrap.onmouseout = function(){
+		timer = setInterval(imgTab,1000);
+	}
+	pre.onclick = function(){
+		imgs[i%8].style.display = 'none';
+		i--;
+		if(i<0){
+			i=7;
+		}
+		imgs[i%8].style.display = 'block';
+	}
+	next.onclick = function(){
+		imgTab();
+	}
+</script>
+</html>

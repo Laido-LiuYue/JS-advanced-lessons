@@ -1,0 +1,150 @@
+/*第一部分，整体格式*/
+*{
+	padding: 0;
+	margin: 0;
+}
+/*第二部分，标头格式*/
+.divone{
+	width:1000px;
+	height: 100px;
+	margin: 0 auto;
+}
+#logo{
+	margin-top: 10px;
+}
+.divone span{
+	position: relative;
+	left:490px;
+	bottom: 40px;		
+	}
+.divone span a{
+	text-decoration: none;
+	font-size: 13px;
+	color: #fb8200;
+}
+.divone form{
+	display: block;
+	float: right;
+	margin-top:45px;
+}
+.search {
+    float: left;
+    margin: 0px;
+    height: 31px;
+    line-height: 31px;
+    width: 200px;
+    border: 1px solid #b6b6b6;
+    border-right: 0px;
+    padding-left: 10px;
+}
+.button{
+    width: 45px;
+    height: 33px;
+    float: left;
+    background-image: url(images/search_btn.gif);
+    background-position: center;
+    background-color: #FFF;
+    background-repeat: no-repeat;
+    border: 0px;
+    cursor: pointer;
+    border: 1px solid #b6b6b6;
+    border-left: 0px;
+    margin-right: 20px;
+}
+hr{
+	width: 1000px;
+	margin: 0 auto;
+}
+/*第三部分，下拉表单的格式*/
+.divtwo{
+	width:1000px;
+	height: 60px;
+	margin: 0 auto;
+	position: relative;
+}
+.divtwo #nav{
+	position: absolute;
+	left: 12px;
+	list-style: none;
+	width: 1000px;
+	}
+#nav ul{
+	list-style: none;
+}
+#menu{
+	float: left;
+	width: 105px;
+	height: 60px;
+	margin:2px;
+	margin-top: 8px;
+	line-height: 60px;
+	text-align: center;
+}
+#nav li ul{
+	display:none;
+	width: 125px;		
+	margin-top: -10px; 
+	padding-left:20px;
+	text-align: left;
+}
+#nav .display ul{
+	background-color: #0e6eb8;
+}
+.display{
+	background-color: #0e6eb8;
+}
+#nav .display a{
+	color: white;
+}
+#nav .display ul{
+	display: block;
+}
+#nav .display{
+	background-color:#0e6eb8;
+}
+#nav li a{
+	text-decoration:none;
+}
+#tilie{
+	font-size: 16px;
+	font-weight:bold;
+	color:black;
+}
+/*第四部分，图片切换部分的格式*/
+.wrap{
+	width: 1200px;
+	height:397px;
+/*	position: relative;*/
+	margin:30px auto;
+	overflow: hidden;
+}
+.wrap a{
+	display: none;
+}
+.bottom{
+	width: 1002px;
+	height: 73px;
+	bottom:0;
+	left:99px;
+	position:absolute;
+	margin-bottom: 148px;
+	margin-left:169px;
+	background: url(images/3.png);
+}
+.bottom>span{
+	display: block;/*行内元素先转换成块*/
+	width: 50px;
+	height: 73px;
+	line-height: 73px;
+	text-align: center;
+	color:#fff;
+	cursor:pointer;/*划上去变成手型*/
+	font-size:25px;
+}
+#next{
+	float: right;
+}
+#pre{
+	float:left;
+}
+
