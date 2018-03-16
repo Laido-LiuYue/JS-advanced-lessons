@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ls2homework</title>
+	<meta charset="utf-8">
+	<script type="text/javascript">
+	/*包装对象：基本数据类型（指字符串，数字和布尔）都有对应的包装对象类型，可以将其包装成对象，而当存储或读取基本类型值的属性时，会创建临时包装对象*/
+	var a = 123;
+	var b = new Number(a);
+	console.log(a == b);//输出true
+	console.log(a === b);//输出false
+	/*临时对象在使用之后会释放*/
+	var str = "abcde";
+	console.log(str.length);//输出一个5，因为此时临时包装成了String对象
+	str.length = 1;
+	console.log(str.length,str);//输出5 和 "abcde"，因为临时包装对象并不影响原始值，所以是初始值,并且此时输出一个undefined，因为临时创建的对象被释放了
+	/*类型转换*/
+	/*其他类型转化为Boolean类型：undefined对应false，null也对应false，布尔值则不用转换，与输入相同，数字：0和NaN转换为false，其他转换为true，字符串中“”转换为false，其他字符串转换为true，而对象总是为true*/
+	if(new Boolean(false)){
+    console.log("执行");
+	}/*此时是new了一个对象，所以是true*/
+	/*其他类型转换为Number类型：undefined对应NaN；null转换为0；布尔值里false是0，true是1；数字则保持不变；字符串中忽略开头和结尾空格，空字符转换为0；对象是调用ToPrimitive（value，number）*/
+	//举例
+	console.log(Number(""));//输出0
+	console.log(Number("abc"));//输出NaN
+	console.log(Number("123.345xx"));//输出NaN
+	console.log(Number("32343,345xx"));//NaN
+	console.log(Number({x:1,y:2}));//NaN
+	/*除此之外还有parseFloat和parseInt方法*/
+	console.log(parseFloat("123.345xx"));//123.345
+	console.log(parseFloat("32343,345xx"));//32343
+	console.log(parseInt("123.345xx"));//123
+	console.log(parseInt("32343,345xx"));//32343
+	/*其他类型转换为string类型：undefined、null、布尔值false和true以及数字都是直接加单引号；字符串的则不用转换；对象的调用ToPrimitive(value,String)*/
+	console.log(String({x:1,y:2}));//输出[Object Object]
+	/*隐式类型转换*/
+	/*使用关系运算符*/
+	var a = 3;
+	var b = 4;
+	console.log(typeof (a>b),a>b);//Boolean false
+	console.log(typeof (a==b),a==b);//Boolean false
+	console.log(typeof (a<b),a<b);//Boolean false
+	/*使用算术运算符*/
+	var c = "img" + 3 +".jpg";
+	var d = "23" - 5;
+	console.log(c,d);//输出img3.jpg   18（可看出转换）
+	/*使用逻辑运算符，注意一个叹号和两个叹号的区别*/
+	var e = !23;//false
+	var f = !!34;//true
+	var g = !!{};//true
+	console.log(e,f,g);
+	/*使用流程语句*/
+	var h = {x:1};
+	if(h){
+		console.log("h:",h);
+	}//输出h:{x:1}
+	/*显示类型转换会使代码更清晰*/
+	//Boolean();Number();String();Object();
+	//数字转换为字符串：toString();toFixed();toPrecision();toExponential();
+	//字符串转换为数字parseInt();parseFloat();
+	//对象转换为初值toString();valueOf();
+
+	/*Number对象继承，此下为四种方法*/
+	var n1 = 12345.6789;
+	console.log(n1.toFixed(2));//12345.68
+	console.log(n1.toPrecision(2));//1.2e+4
+	console.log(n1.toString());//12345.6789
+	console.log(n1.toExponential(2));//1.23e+4
+
+	console.log(NaN === NaN);//false
+	console.log(isNaN("12,3"));//true
+	/*Math方法：floor是向下取整，ceil是向上取整；round是四舍五入*/
+	/*String*/
+	console.log("A" > "a");//输出false
+	/*而localeCompare考虑本地化的字符排序返回0或非0值*/
+	var a = "abc";
+	var b = "def";
+	var c = a+b;
+	console.log(c);//字符串拼接abcdef
+
+	var str2 = "abcdef".slice(2);
+	console.log(str2);//cdef从下标为2找到最后
+	var str3 = "abcdef".slice(2,5);
+	console.log(str3);//cde从下标为2到5，不包括5
+	var str4 = "abcdef".slice(-2);
+	console.log(str4);//ef倒过来找，根据最后一个为-1
+	var str5 = "abcdef".slice(2,-2);
+	console.log(str5);//cd前后结合来看
+
+	var arr6 = "abcdef".split("c");//返回数组
+	console.log(arr6);//["ab","def"]根据c分开这个字符串组成数组
+	var arr7 = "abcdef".split("c",1);
+	console.log(arr7);//["ab"]只组成一个数组
+	var arr8 = "abcdef".split("c",2);
+	console.log(arr8);//["ab","def"]分为两个数组
+
+	var str9 = "abcdef".charAt(2);
+	console.log(str9);//c下标为2的字符
+	var str10 = "abcdef".charCodeAt(3);
+	console.log(str10);//100
+	var str11 = "abcdefabcdef".indexOf("d",1);
+	console.log(str11);//3
+	var str12 = "abcdefabcdef".indexOf("d",4);//
+	console.log(str12);//9
+
+	var str13 = "abcdefghijklmn";
+	var str14 = str13.substr(2,5);//从下标为2开始截取5个
+	console.log(str13,str14);//str13 未受到破坏
+	var str15 = str13.substring(2,5);//从下标为2截取到5不包括5
+	console.log(str13,str15);//str13 未受到破坏
+</script>
+</head>
+<body>
+
+</body>
+</html>
