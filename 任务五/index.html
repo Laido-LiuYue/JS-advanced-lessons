@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>任务五代码</title>
+	<meta charset="utf-8">
+	<script type="text/javascript">
+		/*（两侧都是布尔类型）对于&&来说， 除了两侧都为真时为真，其他情况都为假
+		对于||来说，除了两侧都为假时为假，其他情况都为真*/
+		console.log(2>1&&4<5);//true
+		console.log(false&&("2" == 2));//false
+		console.log(2>1||4<5);//true
+		console.log(true||(!2));//true
+		console.log(false||("2" == 2));//true
+		console.log(false||false);//false
+		/*（当两侧不是布尔类型时）先将左操作数转换成布尔类型，对转换后的左操作数进行逻辑判断（true or false），根据短路原则返回原始左操作数或原始右操作数*/
+		//短路原则：对于&&，转换后的左操作数若为true，则直接返回原始右操作数，若为false则返回原始左操作数，对于||，与上述相反
+		console.log(2&&4);//4
+		console.log(0&&4);//0
+		console.log({x:2}&&{name:"Jack"});//{name:"Jame"}
+		console.log(null&&"hello");//null
+		console.log({}&&"world");//world
+		console.log(2||4);//2
+		console.log(0||4);//4
+		console.log({x:2}||{name:"Jack"});//{x:2}
+		console.log(null||"hello");//hello
+		console.log({}||"world");//{}
+		//所有对象转换为布尔类型 都为 true
+		console.log((new Boolean(false))&&234);//234
+		console.log((new Boolean(false))||234);//Boolean{false}
+		
+		//||来设置函数参数的默认值,函数定义时可以给参数指定默认值，调用时若未传参数则该参数的值取它定义时的默认值,JS（ES6之前）不能直接为函数的参数指定默认值，可以通过 | | 来实现
+		var sum = function(a,b,c){
+    		b = b||4;
+    		c = c||5;
+    		return a+b+c;
+		};
+		console.log(sum(1,2,3));//1+2+3
+		console.log(sum(1,2));//1+2+5
+		console.log(sum(1));//1+4+5
+
+		//函数的定义
+		//函数声明方式
+		function max(a,b){
+    		return a>b?a:b;
+		}
+		max(2,3);
+		//函数表达式方式，等号右侧可以是匿名函数也可以是非匿名函数
+		var max = function (a,b){
+    		return a>b?a:b;
+		};
+		max(2,3);
+		//function构造函数
+		var max = new Function("a","b","return a>b?a:b");
+		max(2,3);
+		//调用时可以直接调用
+		max();
+		//可以用方法调用
+		var obj = {
+    		name:"obj",
+    		x:23,
+    		test:function(){
+        		console.log(this.x,this);
+    		}
+		};
+		obj.test();//也可以给对象添加方法
+		//通过call（）和apply（）调用
+		//call和apply方法调用
+		objA = {name:"AA"};
+		objB = {name:"BB"};
+		objA.foo = function(){
+			console.log(this.name);
+		};
+		objA.foo();
+		objA.foo.call(objB);
+		objA.foo.apply(objB,[x]);
+		//通过构造函数调用
+		function Person(name){
+    		this.name = name;
+		}
+		Person.prototype.sayHi = function(){
+    		console.log("Hi,i'm "+this.name);
+		};
+		var p1 = new Person("Jack");
+		p1.sayHi();
+
+		/*JS函数调用时实参数量可以与形参不一致：
+		1.实参数量大于形参的情况：通过arguments获得所有实参、类数组对象、拥有对象属性
+		2.实参数量小于形参的情况：少的参数值为undefined、可使用| |来给出默认值*/
+		function test() {
+    		console.log(arguments);
+    		console.log(Array.prototype.slice.call(arguments));
+    		var s = "";
+    		for (var i = 0; i < arguments.length; i++) {
+        		s += arguments[i];
+    		}
+    		return s;
+		}
+		test("hello,", "world!");//"hello,world!"
+
+		/*实参为基本数据类型时，形参改变不影响实参（值传递）
+		实参为引用数据类型时，形参改变影响实参（引用传递）*/
+		var obj = {x:1};
+		function fee(o){
+    		console.trace("obj.x :",obj.x," o.x :",o.x);
+    		o.x = 3;// step 2222
+    		console.trace("obj.x :",obj.x," o.x :",o.x);// step 3333
+		}
+		console.trace("obj.x :",obj.x);
+		fee(obj);// step 1111
+		console.trace("obj.x :",obj.x);//step 4444  obj.x被改写为3
+
+		/*函数对象对应的类型是Function，数组对象对应于Array、日期对象对应于Date，如果变量是函数（函数对象）时，typeof此对象，返回function，而非object，内置的函数对象（Array、Function、Date等），内置的非函数对象（Math、JSON）
+		*/
+		function foo(){}
+		console.log(foo); //function foo(){}
+		console.log(typeof foo); //function
+		console.log(foo instanceof Object); //true
+		console.log(foo === window.foo); //true
+		console.log(typeof Function);//function
+		console.log(typeof Error); 	 //function
+		console.log(typeof Math);	 //object
+		console.log(typeof new Function());// function orobject
+		console.log(typeof new Date());	 // function or object
+	</script>
+</head>
+<body>
+
+</body>
+</html>
