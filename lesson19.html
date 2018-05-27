@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>lesson19</title>
+	<meta charset="utf-8">
+	<script>
+		/*事件对象:当事件发生时会产生对应的事件对象（如：鼠标事件对象、键盘事件对象等）
+		事件对象包含对应事件的相关信息（如触发的元素、坐标信息、键值信息等）
+		ps:除了默认的事件外，用户也可自定义事件对象
+		*/
+		window.onload = function(e){
+			console.log("e:",e);
+			var div1 = document.getElementById("div1");
+			div1.onmouseover = function () {
+   				console.log("div2 mouseover");//鼠标滑动事件
+    		}
+			var eventHandler = function(e){
+				console.log(e);
+				console.log(e.clientX,e.clientY);//坐标信息
+			}
+			div1.onclick = eventHandler;//鼠标点击事件
+		}
+
+		window.onload = function(e){
+			console.log(e.target);
+			console.log(this);
+			var div1 = document.getElementById("div1");
+			div1.onclick = function(e){
+				//console.log(e);
+				console.log(e.type,e.target);
+				//console.log(e.target,this);
+				console.log(e.__proto__);
+				console.log(e.__proto__.__proto__);
+				console.log(e.__proto__.__proto__.__proto__);
+			}
+		}
+
+		/*
+		事件响应处理方式
+		1.HTML事件响应处理
+		2.DOM0级事件响应处理
+		3.DOM2级事件响应处理
+		*/
+
+		//html事件响应处理
+		/*<div id="div1" onclick="div1click()"></div>
+		<div id="div2" ondrag="console.log('drag')"></div>*/
+
+		//DOM0级事件响应处理（比html事件响应处理的去耦合性要好很多
+		window.onload = function (e) {
+	    var div1 = document.getElementById("div1");
+	    var eventHandler = function (e) {
+	        console.log(e.clientX,e.clientY);
+	    }
+	    div1.onclick = eventHandler;
+	    //div1.onclick = null;取消事件响应
+		}
+
+		//DOM2级事件响应处理（比DOM0级事件响应处理更强，可以重复，支持自定义事件
+		window.onload = function(e){
+			var div1 = document.getElementById("div1");
+			var eventHandler = fucntion(e){
+				console.log(e.clientX,e.clientY);
+			}
+			div1.addEventListener("click",eventHandler)；
+			//div1.removeEventListener("click",eventHandler);
+		}
+		window.onload = function (e) {
+		    var div1 = document.getElementById("div1");
+		    var div2 = document.getElementById("div2");
+		    var eventHandler = function (e) {
+		        console.log(e.clientX,e.clientY);
+		    }
+		    div1.addEventListener("click",eventHandler);
+		    // div1.addEventListener("click",eventHandler,false);//第3个参数可选
+		    div1.addEventListener("click",function(){
+		        console.log("xx");
+		    });
+
+		    div2.addEventListener("click",eventHandler);
+		    div2.addEventListener("click",eventHandler,false);
+		    //div2.removeEventListener("click",eventHandler);//取消事件响应处理
+
+		    //自定义事件、事件分发、事件监听
+		    div2.addEventListener("MyEvent",function(){console.log("处理自定义事件")});
+		    div2.dispatchEvent(new Event("MyEvent"));
+		}
+	</script>
+</head>
+<body>
+	<div id="div1" onclick="div1click()">
+		
+	</div>
+	<div id="div2" ondrag="console.log('drag')">
+		
+	</div>
+</body>
+</html>
