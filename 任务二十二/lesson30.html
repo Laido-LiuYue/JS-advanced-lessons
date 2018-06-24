@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>lesson30对函数的扩展</title>
+	<meta charset="utf-8">
+	<script>
+		/*关于ES6里新增的箭头函数：
+		语法简单描述为：参数=>函数体或者（参数）=>{函数体}
+		优点：可减少冗余的代码（如function关键字等）节省空间，避免this指向错误
+		注意：如果箭头函数没有参数或需要多个参数时，就使用一个圆括号代表参数部分*/
+		var f = function (v) {
+		    return v + 1;
+		};
+		f(2);//返回3
+
+		//使用箭头函数，只有一个参数和一条语句，单参数可以不用（），单语句可以不用return关键字
+		var f = v => v + 1; 
+		//var f = (v) => {return v + 1;};
+		f(2);//返回3
+
+		//没有参数和有多个参数的情况下，需要使用小括号来表示参数，如果有多条语句则需要有大括号表示函数体
+		var f = () => 5;
+		// 以下等效
+		var f = function () {
+		    return 5
+		};
+
+		var foo = (num1, num2) => {
+		    if (num1 > num2) {
+		        return num1 * 2;
+		    } else {
+		        return num2 * 2;
+		    }
+		};
+		foo(2,3);//6
+		foo(3,2);//6
+
+		//ES5的写法
+		var max = function(a,b){
+			return a>b?a:b;
+		}
+		max(2,3);//3
+		//ES6的写法
+		var max = (a,b) => a>b?a:b;
+		max(2,3);//3
+
+		/*需注意：函数内的 this是与函数定义时所在的对象绑定，而不是使用时所在的对象
+		括号被解释为代码块，所以如果箭头函数直接返回一个对象，需在对象外面加上括号*/
+		var point = {
+		    x:0,
+		    y:0,
+		    moveTo:function (x,y) {
+		        //内部嵌套函数
+		        var moveToX = ()=>this.x=x;//this正确绑定到point
+		        var moveToY = ()=>this.y=y;//this正确绑定到point
+		        moveToX();
+		        moveToY();
+		    }
+		};
+		point.moveTo(2,2);
+		console.log(point);//{x:2,y:2}
+
+		/* 箭头函数有几个使用注意点.
+		（1）函数体内的this对象，就是定义时所在的对象，而不是使用时所在的对象。
+		（2）不可以当作构造函数，也就是说，不可以使用new命令，否则会抛出一个错误。
+		（3）不可以使用arguments对象，该对象在函数体内不存在。如果要用，可以用Rest参数代替。
+		（4）不可以使用yield命令，因此箭头函数不能用作Generator函数*/
+
+		function foo() {
+		    setTimeout(() => {
+		        console.log('id:', this.id);
+		    }, 100);
+		}
+		var id = 21;
+		foo.call({ id: 42 });// id: 42
+		/*关于以上代码的解释
+		箭头函数导致this总是指向函数定义生效时所在的对象（本例是{id: 42}），所以输出的是42
+		其实箭头函数里面没有自己的this，而是引用外层的this
+		*/
+
+		function foo() {
+		    return () => {
+		        return () => {
+		            return () => {
+		                console.log('id:', this.id);
+		            };
+		        };
+		    };
+		}
+		var f = foo.call({id: 1});
+		var t1 = f.call({id: 2})()(); // id: 1
+		var t2 = f().call({id: 3})(); // id: 1
+		var t3 = f()().call({id: 4}); // id: 1
+		/*由于箭头函数没有自己的this，所以当然也就不能用call()、apply()、bind()这些方法去改变this的指向*/
+
+		/*需要特别注意：
+		由于大括号被解释为代码块，所以如果箭头函数直接返回一个对象，必须在对象外面加上小括号*/
+		var getTempItem = itemId => ({ id: itemId, name: "Temp" });
+		getTempItem(23);//{id: 23, name: "Temp"}
+		//等效于
+		var getTempItem = function (itemId) {
+		    return { id: itemId, name: "Temp" }
+		};
+		getTempItem(23);//{id: 23, name: "Temp"}
+
+
+		//ES5中不能直接为函数的参数指定默认值，需通过 || 来实现
+		var sum = function(a,b,c){
+		    b = b||4;
+		    c = c||5;
+		    return a+b+c;
+		};
+		console.log(sum(1,2,3));//1+2+3
+		console.log(sum(1,2));//1+2+5
+		console.log(sum(1));//1+4+5
+		console.log(sum(1,0,0));//本应为1+0+0，但此处为1+4+5
+
+		//优化改造版本
+		var sum = function(a,b,c){
+		    if(b!=false){b = b||4;}//(b!=false)&&(b=b||4);
+		    if(c!=false){c = c||5;}//(c!=false)&&(c=c||5);
+		    return a+b+c;
+		};
+		console.log(sum(1,2,3));//1+2+3
+		console.log(sum(1,2));//1+2+5
+		console.log(sum(1));//1+4+5
+		console.log(sum(1,0,0));//1+0+0
+
+		/*ES6允许为函数的参数设置默认值
+		直接写在参数定义的后面，比ES5更加直观
+		不会出现ES5中实参转换为布尔类型的问题*/
+		var sum = function(a,b=4,c=5){
+		    return a+b+c;
+		};
+		console.log(sum(1,2,3));//1+2+3
+		console.log(sum(1,2));//1+2+5
+		console.log(sum(1));//1+4+5
+		console.log(sum(1,0,0));//1+0+0
+
+		//默认值案例
+		function fetch(url, { body = '', method = 'GET', headers = {} } = {}) {
+		    console.log(url);
+		    console.log(body);
+		    console.log(method);
+		    console.log(headers);
+		}
+
+		/*
+		ES6函数的参数默认值注意事项
+		带默认值的参数变量是默认声明的，所以函数体内不能再用let或const重复声明
+		参数一般有顺序，有默认值的参数应该是尾参数，这样可以使有默认值的用默认值没有默认值的用传递的值
+		*/
+		function foo(x=5){
+			let x = 1;//报错
+			const x= 2;//报错
+		}
+		foo();
+
+		function f(x=1,y){
+			return [x,y];
+		}
+		f();//[1,undefined]
+		f(2);//[2,undefined]
+		f(,3);//报错 无法使x用1，y用3
+
+		//所以有默认值的参数在最后
+		function f(x,y = 1) {
+		    return [x,y];
+		}
+		f();//[undefined, 1]
+		f(2);//[2, 1] 这样就可以x为传递的参数，y为默认的值
+
+		/*Rest（剩余操作符）
+		用在函数参数的声明中，可获得隐含的实参，取代ES5中函数隐藏变量arguments
+		arguments（获得所有实参）是个类数组对象，缺点不能像操作数组那样直接操作
+		Rest比arguments更灵活，...Rest操作符需放在了函数形参的最后
+		*/
+
+		//Rest 相当于合并若干参数为一个数组，主要用于函数定义时，代替 arguments，组解决arguments的弊端
+		function f(...y){
+		    console.log(y);
+		}
+		f("a","b","c");//输出 ["a","b","c"]
+
+		//比arguments使用更加灵活,比如只想看从第二个开始之后的参数
+		function f(x,...y){
+		    console.log(x,y);
+		}
+		f("a","b","c","d");//输出 "a",["b","c","d"]
+
+
+		/*
+		Spread（扩展操作符）
+		主要用在函数的调用中使用（虽然也是...，但使用的场景不同）
+		Spread将一个数组转换为用逗号分隔的参数序列，是...Rest的逆过程
+		在call和apply的转换过程中十分有用
+		*/
+		function f(x,...y){
+		    console.log(x,y);
+		}
+		f("a",...["b","c"]);//等价于f("a","b","c");
+		f("a");//输出 "a",[]
+		f();//输出 undefined,[]
+
+		function abc(...v){
+		    console.log(v)
+		}
+		o1 = {};
+		abc.call(o1,...[1,2,3]);//等效于 abc.apply(o1,[1,2,3]);
+
+	</script>
+}
+
+}
+</head>
+<body>
+
+</body>
+</html>
